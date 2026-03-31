@@ -871,13 +871,11 @@ class AjaxAutocompleteViewTest(TestCase):
     def test_invalid_model_does_not_crash(self):
         self.assertTrue(self.client.login(username='staff_autocomplete', password='password'))
 
-        response = self.client.get('/admin/ajax_autocomplete/', {
-            'model_module': 'esp.users.models',
-            'model_name': 'InvalidModel',
-            'ajax_data': 'test',
-        })
+        response = self._call(
+            model_name='InvalidModel',
+            ajax_data='test',
+        )
 
-        self.assertNotEqual(response.status_code, 500)
         self.assertIn(response.status_code, [200, 400])
 
 class StudentInfoFormGradeTest(TestCase):
